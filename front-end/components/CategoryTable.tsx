@@ -24,14 +24,14 @@ export default function BasicTable() {
       .get("http://localhost:3001/category/get")
       .then((res) => setData(res.data.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [data]);
 
   const deleteCat = (id: number) => {
     console.log(id);
 
     axios
       .delete("http://localhost:3001/category/delete", {
-        data: { id: id },
+        data: { _id: id },
       })
       .then((res) => {
         console.log(res.statusText);
