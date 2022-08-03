@@ -17,14 +17,12 @@ type Data = {
   _v: number;
 };
 
-export default function BasicTable() {
-  const [data, setData] = useState<Data[]>([]);
+export default function BasicTable({ categories }: any) {
+  const [categoriesData, setCategoriesData] = useState<Data[]>([]);
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/category/get")
-      .then((res) => setData(res.data.data))
-      .catch((err) => console.log(err));
-  }, [data]);
+    setCategoriesData(categories);
+  }, [categoriesData && categories]);
+  console.log(categories);
 
   const deleteCat = (id: number) => {
     console.log(id);
@@ -34,11 +32,30 @@ export default function BasicTable() {
         data: { _id: id },
       })
       .then((res) => {
-        console.log(res.statusText);
+        if (res.statusText == "OK") {
+          axios
+            .get("http://localhost:3001/category")
+            .then((res) => {
+              res.data.data;
+            })
+            .then((res) => {
+              return setCategoriesData(res);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const updatebutton = () => {
+    location.href = "http://localhost:3000/update";
+  };
+  const insertButton = () => {
+    location.href = "http://localhost:3000/insert";
   };
   return (
     <Container fixed>
@@ -50,12 +67,13 @@ export default function BasicTable() {
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Color</TableCell>
               <TableCell align="center">_v</TableCell>
-              <TableCell align="center">Buttons</TableCell>
-              <TableCell align="center">Buttons</TableCell>
+              <TableCell align="center">Delete</TableCell>
+              <TableCell align="center">Update</TableCell>
+              <TableCell align="center">Insert</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((each) => (
+            {categoriesData?.map((each) => (
               <TableRow
                 key={each.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -68,7 +86,7 @@ export default function BasicTable() {
                 <TableCell align="center">{each._v}</TableCell>
                 <TableCell align="center">
                   <Button
-                    onClick={() => {
+                    onClick={(id) => {
                       deleteCat(each._id);
                     }}
                     variant="contained"
@@ -77,7 +95,14 @@ export default function BasicTable() {
                   </Button>
                 </TableCell>
                 <TableCell align="center">
-                  <Button variant="contained">update</Button>
+                  <Button onClick={updatebutton} variant="contained">
+                    update
+                  </Button>
+                </TableCell>
+                <TableCell align="center">
+                  <Button onClick={insertButton} variant="contained">
+                    Insert
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
