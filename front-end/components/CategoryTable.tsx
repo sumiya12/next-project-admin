@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import { useRouter } from "next/router";
 
 type Data = {
   _id: number;
@@ -18,15 +19,14 @@ type Data = {
 };
 
 export default function BasicTable({ categories }: any) {
-  const [categoriesData, setCategoriesData] = useState<Data[]>([]);
+  const [categoriesData, setCategoriesData] = useState();
   useEffect(() => {
     setCategoriesData(categories);
-  }, [categoriesData && categories]);
-  console.log(categories);
+  }, [categoriesData]);
+  //   console.log(categories);
+  const router = useRouter();
 
   const deleteCat = (id: number) => {
-    console.log(id);
-
     axios
       .delete("http://localhost:3001/category/delete", {
         data: { _id: id },
@@ -38,11 +38,9 @@ export default function BasicTable({ categories }: any) {
             .then((res) => {
               res.data.data;
             })
-            .then((res) => {
-              return setCategoriesData(res);
-            })
+            .then((d) => setCategoriesData(d))
             .catch((err) => {
-              console.error(err);
+              console.log(err);
             });
         }
       })
@@ -50,10 +48,13 @@ export default function BasicTable({ categories }: any) {
         console.log(err);
       });
   };
-
-  const updatebutton = () => {
-    location.href = "http://localhost:3000/update";
+  const getId = (id: Number) => {
+    router.push(`/category/edit/${id}`);
   };
+
+  //   const updatebutton = () => {
+  //     location.href = "http://localhost:3000/update";
+  //   };
   const insertButton = () => {
     location.href = "http://localhost:3000/insert";
   };
@@ -86,7 +87,7 @@ export default function BasicTable({ categories }: any) {
                 <TableCell align="center">{each._v}</TableCell>
                 <TableCell align="center">
                   <Button
-                    onClick={(id) => {
+                    onClick={() => {
                       deleteCat(each._id);
                     }}
                     variant="contained"
@@ -95,7 +96,12 @@ export default function BasicTable({ categories }: any) {
                   </Button>
                 </TableCell>
                 <TableCell align="center">
-                  <Button onClick={updatebutton} variant="contained">
+                  <Button
+                    onClick={() => {
+                      getId(each._id);
+                    }}
+                    variant="contained"
+                  >
                     update
                   </Button>
                 </TableCell>

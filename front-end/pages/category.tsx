@@ -45,15 +45,15 @@ const category: NextPage<Props> = ({ categories }) => {
   return (
     <Container maxWidth="lg">
       <h1>All categories page</h1>
-      <Button variant="contained">Hello World</Button>
+
       <CategoryTable categories={categories} />
     </Container>
   );
 };
 export default category;
 category.getInitialProps = async (ctx: any) => {
-  const res = await axios.get("http://localhost:3001/category/get");
+  const res = await axios.get("http://localhost:3001/category");
   const json = await res.data.data;
-  console.log(json);
+  // console.log(json);
   return { categories: json };
 };

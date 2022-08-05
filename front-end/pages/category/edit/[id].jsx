@@ -1,21 +1,59 @@
 import axios from "axios";
-import Router, { useRouter } from "next/router";
-import category from "../../category";
-
-const router = useRouter();
+import React, { useState, useEffect } from "react";
+import router, { useRouter } from "next/router";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 export default function cat({ category }) {
-  console.log(category);
-  function addCategory(e: any) {}
-  const handleSubmit = () => {
+  const router = useRouter();
+  const [categoriesData, setCategoriesData] = useState();
+  // useEffect(() => {
+  //   setCategoriesData(category);
+  // }, [categoriesData]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e);
+    const name = e.target[0].value;
+    console.log("this is name", name);
+    const color = e.target[1].value;
+    console.log("this is color", color);
+    const _v = e.target[2].value;
+    console.log("this is _v", _v);
+    const id = category[0]._id;
+    console.log(id);
+    axios
+      .put("http://localhost:3001/category", {
+        name,
+        color,
+        _v,
+        id,
+      })
+      .then((res) => {
+        if (res.statusText == "OK") {
+          axios
+            .get("http://localhost:3001/category")
+            .then((res) => {
+              res.data.data;
+            })
+            .then((d) => setCategoriesData(category))
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     router.push("/category");
   };
+  // console.log(category && category);
 
   return (
     <>
-      <h1 style={{ color: "black" }}>One category</h1>cat
+      <h1 style={{ color: "black" }}>One category</h1>
       <Box
         component="form"
-        onSubmit={(any) => addCategory(e)}
+        onSubmit={handleSubmit}
         sx={{
           "& > :not(style)": { m: 1, width: "25ch" },
         }}
@@ -24,36 +62,48 @@ export default function cat({ category }) {
       >
         <TextField
           id="standard-basic"
+          defaultValue={category[0].name}
+          name="name"
           label="Name"
           variant="standard"
-          value={category[0].name}
+        />
+
+        <TextField
+          id="standard-basic"
+          defaultValue={category[0].color}
+          label="Color"
+          name="color"
+          variant="standard"
         />
         <TextField
           id="standard-basic"
-          label="Color"
+          defaultValue={category[0]._v}
+          label="_v"
+          name="_v"
           variant="standard"
-          value={category[0].color}
         />
-        <Button type="submit">Add category</Button>
+        <Button type="submit">Update category</Button>
       </Box>
     </>
   );
 }
-
 export async function getStaticPaths() {
-  const res = await axios.get("http://localhost:3000/category");
+  // console.log("staticpath");
+  const res = await axios.get("http://localhost:3001/category");
+  // console.log(res.data);
+  // console.log("staticpath");
   return {
     fallback: false,
     paths: res.data.data.map((category) => ({
-      params: {
-        id: category.id.toString(),
-      },
+      params: { id: category._id.toString() },
     })),
+    // paths: { params: {} },
   };
 }
 
 export async function getStaticProps({ params }) {
-  const res = await axios.get(`http://localhost:3000/category/${params}`);
+  // console.log(params.id);
+  const res = await axios.get(`http://localhost:3001/category/${params.id}`);
   return {
     props: {
       category: res.data.data,
