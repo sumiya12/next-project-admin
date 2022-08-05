@@ -19,31 +19,17 @@ export default function cat({ category }) {
     console.log("this is color", color);
     const _v = e.target[2].value;
     console.log("this is _v", _v);
-    const id = category[0]._id;
-    console.log(id);
+    const _id = category[0]._id;
+    console.log(_id);
     axios
       .put("http://localhost:3001/category", {
         name,
         color,
         _v,
-        id,
+        _id,
       })
-      .then((res) => {
-        if (res.statusText == "OK") {
-          axios
-            .get("http://localhost:3001/category")
-            .then((res) => {
-              res.data.data;
-            })
-            .then((d) => setCategoriesData(category))
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => console.log(res.statusText))
+      .catch((error) => console.error(error));
     router.push("/category");
   };
   // console.log(category && category);
