@@ -60,6 +60,9 @@ export default function BasicTable({ categories }: any) {
   };
   return (
     <Container fixed>
+      <Button onClick={insertButton} variant="contained">
+        Insert
+      </Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -74,7 +77,7 @@ export default function BasicTable({ categories }: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {categoriesData?.map((each) => (
+            {categoriesData?.map((each: any) => (
               <TableRow
                 key={each.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -105,11 +108,7 @@ export default function BasicTable({ categories }: any) {
                     update
                   </Button>
                 </TableCell>
-                <TableCell align="center">
-                  <Button onClick={insertButton} variant="contained">
-                    Insert
-                  </Button>
-                </TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             ))}
           </TableBody>

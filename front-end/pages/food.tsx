@@ -31,7 +31,7 @@ const category: NextPage<Props> = ({ categories }) => {
 };
 export default category;
 category.getInitialProps = async (ctx: any) => {
-  const res = await axios.get("http://localhost:3001/food/getfood");
+  const res = await axios.get("http://localhost:3001/food");
   const json = await res.data.data;
   console.log(json);
   return { categories: json };
