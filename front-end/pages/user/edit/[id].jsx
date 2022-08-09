@@ -4,26 +4,28 @@ import router, { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import NativeSelect from "@mui/material/NativeSelect";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 export default function cat({ Users, role }) {
   const router = useRouter();
   const [categoriesData, setCategoriesData] = useState();
 
   const [roles, setRoles] = useState("");
-  console.log(role);
+  console.log(Users);
   const handleChange = (event) => {
     setRoles(event.target.value);
   };
 
-  console.log(Users);
+  //   console.log(Users);
   useEffect(() => {
     setCategoriesData(Users);
   }, [categoriesData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    // console.log(e);
 
     const firstname = e.target[0].value;
     const lastname = e.target[1].value;
@@ -48,7 +50,7 @@ export default function cat({ Users, role }) {
     router.push("/user");
   };
   // console.log(category && category);
-  console.log(role);
+  //   console.log(role);
   return (
     <>
       <h1 style={{ color: "black" }}>One category</h1>
@@ -104,21 +106,27 @@ export default function cat({ Users, role }) {
           name="category_id"
           variant="standard"
         />
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={roles}
-          label="Age"
-          onChange={handleChange}
-        >
-          {role?.map((r, i) => {
-            return (
-              <MenuItem key={i} value={r.id}>
-                {r.role_name}
-              </MenuItem>
-            );
-          })}
-        </Select>
+        <FormControl fullWidth>
+          <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            Role
+          </InputLabel>
+          <NativeSelect
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            defaultValue={Users[0].role_name}
+            // value={roles}
+            label="Role"
+            onChange={handleChange}
+            inputProps={{
+              name: "Role",
+              id: "uncontrolled-native",
+            }}
+          >
+            {role?.map((r) => {
+              return <option key={r.rode_id}>{r.role_name}</option>;
+            })}
+          </NativeSelect>
+        </FormControl>
 
         <Button type="submit" variant="contained">
           Update user
@@ -146,7 +154,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log(params.id);
+  //   console.log(params.id);
   const res = await axios.get(`http://localhost:3001/user/${params.id}`);
   const res1 = await axios.get(`http://localhost:3001/role`);
   const [userid, role] = await Promise.all([res, res1]);

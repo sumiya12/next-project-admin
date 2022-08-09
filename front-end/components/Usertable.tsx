@@ -59,7 +59,7 @@ export default function BasicTable({ users }: any) {
   //     location.href = "http://localhost:3000/update";
   //   };
   const insertButton = () => {
-    location.href = "http://localhost:3000/insert";
+    router.push(`/insert`);
   };
   return (
     <Container fixed>

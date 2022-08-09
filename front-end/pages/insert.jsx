@@ -1,10 +1,10 @@
 import React from "react";
-import Insert from "../components/Insert";
+import Userinsert from "../components/Userinsert";
 
 const insert = () => {
   return (
     <>
-      <Insert />
+      <Userinsert />
     </>
   );
 };

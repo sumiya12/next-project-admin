@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FormGroup } from "@mui/material";
+import { useRouter } from "next/router";
 
 // type Data = {
 //   _id: number,
@@ -19,14 +20,19 @@ const Insert = () => {
   const [textValue, setTextValue] = useState();
   const insertButton = (e) => {
     e.preventDefault();
-    // console.log(e.target[4].value);
+
     const firstname = e.target[0].value;
-    const lastname = e.target[1].value;
-    const email = e.target[2].value;
-    const address = e.target[3].value;
-    const phone_number = e.target[4].value;
-    const rode_id = e.target[5].value;
-    const id = Users.id;
+    console.log(firstname);
+    const lastname = e.target[2].value;
+    console.log(lastname);
+    const email = e.target[4].value;
+    console.log(email);
+    const address = e.target[6].value;
+    console.log(address);
+    const phone_number = e.target[8].value;
+    console.log(phone_number);
+    const rode_id = e.target[10].value;
+    console.log(rode_id);
 
     axios
       .post("http://localhost:3001/user", {
@@ -36,7 +42,6 @@ const Insert = () => {
         address,
         phone_number,
         rode_id,
-        id,
       })
       .then((res) => {
         console.log(res.statusText);
@@ -44,12 +49,17 @@ const Insert = () => {
       .catch((err) => {
         console.log("error in request", err);
       });
+    router.push("/user");
   };
-
-  router.push("/user");
+  const handleclick = () => {
+    router.push("/user");
+  };
 
   return (
     <Container fixed>
+      <Button onClick={handleclick} variant="contained">
+        back
+      </Button>
       <FormGroup>
         <Box
           component="form"
