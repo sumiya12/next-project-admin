@@ -25,7 +25,7 @@ export default function cat({ foods }) {
     const tumb_img = e.target[7].value;
     const discount = e.target[8].value;
     const sales = e.target[9].value;
-    const id = foods.id;
+    const id = foods[0].id;
 
     axios
       .put("http://localhost:3001/food", {

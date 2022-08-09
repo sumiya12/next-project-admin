@@ -11,33 +11,33 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/router";
 
-type Data = {
-  id: Number;
-  firstname: String;
-  lastname: String;
-  email: String;
-  address: String;
-  phone_number: String;
-  rode_id: number;
-};
+// type Data = {
+//   id: Number;
+//   firstname: String;
+//   lastname: String;
+//   email: String;
+//   address: String;
+//   phone_number: String;
+//   rode_id: number;
+// };
 
-export default function BasicTable({ users }: any) {
+export default function BasicTable({ roles }: any) {
   const [categoriesData, setCategoriesData] = useState();
   useEffect(() => {
-    setCategoriesData(users);
+    setCategoriesData(roles);
   }, [categoriesData]);
   //   console.log(categories);
   const router = useRouter();
 
     const deleteCat = (id: number) => {
       axios
-        .delete("http://localhost:3001/user", {
-          data: { id: id },
+        .delete("http://localhost:3001/role", {
+          data: { id },
         })
         .then((res) => {
           if (res.statusText == "OK") {
             axios
-              .get("http://localhost:3001/user")
+              .get("http://localhost:3001/role")
               .then((res) => {
                 res.data.data;
               })
@@ -50,17 +50,17 @@ export default function BasicTable({ users }: any) {
         .catch((err) => {
           console.log(err);
         });
-        router.push(`/user`);
+        router.push(`/role`);
     };
   const getId = (id: Number) => {
-    router.push(`/user/edit/${id}`);
+    router.push(`/role/edit/${id}`);
   };
 
   //   const updatebutton = () => {
   //     location.href = "http://localhost:3000/update";
   //   };
   const insertButton = () => {
-    router.push(`/insert`);
+    router.push(`/roleinsert`);
   };
   return (
     <Container fixed>
@@ -72,12 +72,9 @@ export default function BasicTable({ users }: any) {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="center">firstname</TableCell>
-              <TableCell align="center">lastname</TableCell>
-              <TableCell align="center">email</TableCell>
-              <TableCell align="center">address</TableCell>
-              <TableCell align="center">phone_number</TableCell>
-              <TableCell align="center">rode_id</TableCell>
+              <TableCell align="center">role_name</TableCell>
+              <TableCell align="center">role_description</TableCell>
+              
               <TableCell align="center">Delete</TableCell>
               <TableCell align="center">Update</TableCell>
             </TableRow>
@@ -91,12 +88,9 @@ export default function BasicTable({ users }: any) {
                 <TableCell component="th" scope="row">
                   {each.id}
                 </TableCell>
-                <TableCell align="center">{each.firstname}</TableCell>
-                <TableCell align="center">{each.lastname}</TableCell>
-                <TableCell align="center">{each.email}</TableCell>
-                <TableCell align="center">{each.address}</TableCell>
-                <TableCell align="center">{each.phone_number}</TableCell>
-                <TableCell align="center">{each.rode_id}</TableCell>
+                <TableCell align="center">{each.role_name}</TableCell>
+                <TableCell align="center">{each.role_description}</TableCell>
+                
                 <TableCell align="center">
                   <Button
                     onClick={() => {

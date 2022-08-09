@@ -38,8 +38,8 @@ export default function BasicTable({ categories }: any) {
     console.log(id);
 
     axios
-      .delete("http://localhost:3001/food/deletefood", {
-        data: { _id: id },
+      .delete("http://localhost:3001/food", {
+        data: { id },
       })
       .then((res) => {
         if (res.statusText == "OK") {
@@ -57,6 +57,7 @@ export default function BasicTable({ categories }: any) {
       .catch((err) => {
         console.log(err);
       });
+    router.push(`/food`);
   };
   const getId = (id: Number) => {
     router.push(`/food/edit/${id}`);
@@ -66,14 +67,14 @@ export default function BasicTable({ categories }: any) {
   //   location.href = "http://localhost:3000/update";
   // };
   const insertButton = () => {
-    location.href = "http://localhost:3000/insert";
+    router.push(`/foodinsert`);
   };
   return (
     <>
       <Button onClick={insertButton} variant="contained">
         Insert
       </Button>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{width:"95vw" , display:"flex", alignItems:"center" ,paddingLeft:"50px"}}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>

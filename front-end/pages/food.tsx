@@ -22,11 +22,11 @@ interface Props {
 
 const category: NextPage<Props> = ({ categories }) => {
   return (
-    <Container maxWidth="lg">
+    <>
       <h1>All Foods page</h1>
 
       <Foodtable categories={categories} />
-    </Container>
+    </>
   );
 };
 export default category;
