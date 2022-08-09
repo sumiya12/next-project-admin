@@ -25,7 +25,6 @@ export default function cat({ Users, role }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(e);
 
     const firstname = e.target[0].value;
     const lastname = e.target[1].value;
@@ -33,24 +32,23 @@ export default function cat({ Users, role }) {
     const address = e.target[3].value;
     const phone_number = e.target[4].value;
     const rode_id = e.target[5].value;
-    const id = Users.id;
+    const id = Users[0].id;
+    console.log(id);
 
     axios
       .put("http://localhost:3001/user", {
-        firstname,
-        lastname,
-        email,
-        address,
-        phone_number,
-        rode_id,
-        id,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        address: address,
+        phone_number: phone_number,
+        rode_id: rode_id,
+        id: id,
       })
       .then((res) => console.log(res.statusText))
       .catch((error) => console.error(error));
     router.push("/user");
   };
-  // console.log(category && category);
-  //   console.log(role);
   return (
     <>
       <h1 style={{ color: "black" }}>One category</h1>
