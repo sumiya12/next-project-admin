@@ -4,17 +4,26 @@ import router, { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-export default function cat({ foods }) {
+import NativeSelect from "@mui/material/NativeSelect";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+
+export default function cat({ foods, cate }) {
   const router = useRouter();
   const [categoriesData, setCategoriesData] = useState();
+  const [category, setCategory] = useState("");
   console.log(foods);
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
+
   useEffect(() => {
     setCategoriesData(foods);
   }, [categoriesData]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(e);
-
     const namee = e.target[0].value;
     const price = e.target[1].value;
     const ingredients = e.target[2].value;
@@ -26,7 +35,6 @@ export default function cat({ foods }) {
     const discount = e.target[8].value;
     const sales = e.target[9].value;
     const id = foods[0].id;
-
     axios
       .put("http://localhost:3001/food", {
         namee,
@@ -45,7 +53,6 @@ export default function cat({ foods }) {
       .catch((error) => console.error(error));
     router.push("/food");
   };
-  // console.log(category && category);
 
   return (
     <>
@@ -81,13 +88,31 @@ export default function cat({ foods }) {
           name="ingredients"
           variant="standard"
         />
-        <TextField
-          id="standard-basic"
-          defaultValue={foods[0].category_id}
-          label="category_id"
-          name="category_id"
-          variant="standard"
-        />
+        <FormControl fullWidth>
+          <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            Category
+          </InputLabel>
+          <NativeSelect
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            defaultValue={foods[0].name}
+            // value={category}
+            label="category_id"
+            onChange={handleChange}
+            inputProps={{
+              name: "Category",
+              id: "uncontrolled-native",
+            }}
+          >
+            {cate?.map((r) => {
+              return (
+                <option value={r._id} key={r._id}>
+                  {r.name}
+                </option>
+              );
+            })}
+          </NativeSelect>
+        </FormControl>
         <TextField
           id="standard-basic"
           defaultValue={foods[0].stock}
@@ -137,14 +162,18 @@ export default function cat({ foods }) {
     </>
   );
 }
+
+const callFood = axios.get("http://localhost:3001/food");
+const callCat = axios.get("http://localhost:3001/category");
+
 export async function getStaticPaths() {
-  //   console.log("staticpath");
-  const res = await axios.get("http://localhost:3001/food");
+  const [food, cat] = await Promise.all([callFood, callCat]);
+  // const res = await axios.get("http://localhost:3001/food");
   //   console.log(res.data);
   //   console.log("staticpath");
   return {
     fallback: false,
-    paths: res.data.data.map((food) => ({
+    paths: food.data.data.map((food) => ({
       params: { id: food.id.toString() },
     })),
     // paths: { params: {} },
@@ -152,11 +181,15 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  //   console.log(params.id);
-  const res = await axios.get(`http://localhost:3001/food/${params.id}`);
+  const callFood = await axios.get(`http://localhost:3001/food/${params.id}`);
+  const callCat = await axios.get("http://localhost:3001/category");
+  const [foodid, cat] = await Promise.all([callFood, callCat]);
+  console.log(cat);
+
   return {
     props: {
-      foods: res.data.data,
+      foods: foodid.data.data,
+      cate: cat.data.data,
     },
   };
 }

@@ -13,19 +13,18 @@ export default function cat({ Users, role }) {
   const [categoriesData, setCategoriesData] = useState();
 
   const [roles, setRoles] = useState("");
-  console.log(Users);
+  // console.log(Users);
   const handleChange = (event) => {
     setRoles(event.target.value);
   };
 
-  //   console.log(Users);
   useEffect(() => {
     setCategoriesData(Users);
   }, [categoriesData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    // console.log(role);
     const firstname = e.target[0].value;
     const lastname = e.target[1].value;
     const email = e.target[2].value;
@@ -33,7 +32,7 @@ export default function cat({ Users, role }) {
     const phone_number = e.target[4].value;
     const rode_id = e.target[5].value;
     const id = Users[0].id;
-    console.log(id);
+    // console.log(id);
 
     axios
       .put("http://localhost:3001/user", {
@@ -121,7 +120,11 @@ export default function cat({ Users, role }) {
             }}
           >
             {role?.map((r) => {
-              return <option key={r.rode_id}>{r.role_name}</option>;
+              return (
+                <option value={r.rode_id} key={r.rode_id}>
+                  {r.role_name}
+                </option>
+              );
             })}
           </NativeSelect>
         </FormControl>
@@ -152,10 +155,10 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  //   console.log(params.id);
   const res = await axios.get(`http://localhost:3001/user/${params.id}`);
   const res1 = await axios.get(`http://localhost:3001/role`);
   const [userid, role] = await Promise.all([res, res1]);
+  //   console.log(params.id);
   return {
     props: {
       Users: userid.data.data,

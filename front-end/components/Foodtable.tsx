@@ -32,10 +32,10 @@ export default function BasicTable({ categories }: any) {
   useEffect(() => {
     setCategoriesData(categories);
   }, [categoriesData && categories]);
-  console.log(categories);
+  // console.log(categories);
 
   const deleteCat = (id: number) => {
-    console.log(id);
+    // console.log(id);
 
     axios
       .delete("http://localhost:3001/food", {
@@ -74,7 +74,15 @@ export default function BasicTable({ categories }: any) {
       <Button onClick={insertButton} variant="contained">
         Insert
       </Button>
-      <TableContainer component={Paper} sx={{width:"95vw" , display:"flex", alignItems:"center" ,paddingLeft:"50px"}}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          width: "95vw",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "50px",
+        }}
+      >
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -83,6 +91,7 @@ export default function BasicTable({ categories }: any) {
               <TableCell align="center">price</TableCell>
               <TableCell align="center">ingredients</TableCell>
               <TableCell align="center">category_id</TableCell>
+              <TableCell align="center">category_name</TableCell>
               <TableCell align="center">stock</TableCell>
               <TableCell align="center">portion</TableCell>
               <TableCell align="center">image</TableCell>
@@ -106,6 +115,7 @@ export default function BasicTable({ categories }: any) {
                 <TableCell align="center">{each.price}</TableCell>
                 <TableCell align="center">{each.ingredients}</TableCell>
                 <TableCell align="center">{each.category_id}</TableCell>
+                <TableCell align="center">{each.name}</TableCell>
                 <TableCell align="center">{each.stock}</TableCell>
                 <TableCell align="center">{each.portion}</TableCell>
                 <TableCell align="center">{each.image}</TableCell>

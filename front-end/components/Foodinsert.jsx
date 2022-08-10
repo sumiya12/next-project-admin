@@ -6,7 +6,9 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FormGroup } from "@mui/material";
 import { useRouter } from "next/router";
-
+import NativeSelect from "@mui/material/NativeSelect";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 // type Data = {
 //   _id: number,
 //   name: string,
@@ -14,22 +16,32 @@ import { useRouter } from "next/router";
 //   _v: number,
 // };
 
-const Foodinsert = () => {
+const Foodinsert = ({ cate }) => {
   const router = useRouter();
   const [data, setData] = useState();
   const [textValue, setTextValue] = useState();
+  const [category, setCategory] = useState();
+
+  const catid = parseInt(category);
+  console.log(typeof catid);
+  const handleChange = (event) => {
+    console.log(event.target);
+
+    setCategory(event.target.value);
+  };
   const insertButton = (e) => {
-    e.preventDefault();  
-	const namee = e.target[0].value;
-	const price = e.target[2].value;
-	const ingredients = e.target[4].value;
-	const category_id = e.target[6].value;
-	const stock = e.target[8].value;
-	const portion = e.target[10].value;
-	const image = e.target[12].value;
-	const tumb_img = e.target[14].value; 
-	const discount = e.target[16].value;
-	const sales = e.target[18].value;
+    e.preventDefault();
+    console.log(e);
+    const namee = e.target[0].value;
+    const price = e.target[2].value;
+    const ingredients = e.target[4].value;
+    const category_id = catid;
+    const stock = e.target[7].value;
+    const portion = e.target[9].value;
+    const image = e.target[11].value;
+    const tumb_img = e.target[13].value;
+    const discount = e.target[15].value;
+    const sales = e.target[17].value;
     axios
       .post("http://localhost:3001/food", {
         namee,
@@ -42,7 +54,6 @@ const Foodinsert = () => {
         tumb_img,
         discount,
         sales,
-       
       })
       .then((res) => {
         console.log(res.statusText);
@@ -77,7 +88,7 @@ const Foodinsert = () => {
             variant="outlined"
             name="namee"
           />
-         
+
           <TextField
             id="outlined-basic"
             label="price"
@@ -90,12 +101,31 @@ const Foodinsert = () => {
             label="ingredients"
             variant="outlined"
           />
-          <TextField
-            id="outlined-basic"
-            label="category_id"
-            variant="outlined"
-            name="category_id"
-          />
+          <FormControl fullWidth>
+            <InputLabel variant="outlined" htmlFor="uncontrolled-native">
+              Category
+            </InputLabel>
+            <NativeSelect
+              variant="outlined"
+              id="demo-simple-select"
+              // defaultValue={foods[0].name}
+              value={catid}
+              label="category_id"
+              onChange={handleChange}
+              inputProps={{
+                name: "Category",
+                id: "uncontrolled-native",
+              }}
+            >
+              {cate?.map((r) => {
+                return (
+                  <option variant="outlined" value={r._id} key={r._id}>
+                    {r.name}
+                  </option>
+                );
+              })}
+            </NativeSelect>
+          </FormControl>
           <TextField
             id="filled-basic"
             name="stock"
