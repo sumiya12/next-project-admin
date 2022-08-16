@@ -31,12 +31,7 @@ const Register = () => {
           console.log(res.data.data);
           console.log(res.data.token);
           setLocal(res.data.token);
-          router.push("/user");
-          //   localStorage.setItem("local", JSON.stringify(local));
-          // } else {
-          //   console.log(res.data.message, "----");
-          //   //   setTemp(res.data.message);
-          // }
+          router.push("/user");          
         }
       })
       .catch((err) => {

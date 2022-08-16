@@ -20,6 +20,6 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/category/edit/[id].jsx"
-, "components/Insertrole.jsx"  ],
+, "components/Insertrole.jsx", "components/Foodtable.jsx"  ],
   "exclude": ["node_modules"]
 }

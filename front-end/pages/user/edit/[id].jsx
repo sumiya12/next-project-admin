@@ -108,7 +108,7 @@ export default function cat({ Users, role }) {
             Role
           </InputLabel>
           <NativeSelect
-            labelId="demo-simple-select-label"
+            // labelId="demo-simple-select-label
             id="demo-simple-select"
             defaultValue={Users[0].role_name}
             // value={roles}
@@ -119,9 +119,9 @@ export default function cat({ Users, role }) {
               id: "uncontrolled-native",
             }}
           >
-            {role?.map((r) => {
+            {role?.map((r,i) => {
               return (
-                <option value={r.rode_id} key={r.rode_id}>
+                <option value={r.rode_id} key={i}>
                   {r.role_name}
                 </option>
               );

@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 //   rode_id: number;
 // };
 
-export default function BasicTable({ roles }: any) {
+export default function RoleTable({ roles }) {
   const [categoriesData, setCategoriesData] = useState();
   useEffect(() => {
     setCategoriesData(roles);
@@ -29,7 +29,7 @@ export default function BasicTable({ roles }: any) {
   //   console.log(categories);
   const router = useRouter();
 
-    const deleteCat = (id: number) => {
+    const deleteCat = (id) => {
       axios
         .delete("http://localhost:3001/role", {
           data: { id },
@@ -52,7 +52,7 @@ export default function BasicTable({ roles }: any) {
         });
         router.push(`/role`);
     };
-  const getId = (id: Number) => {
+  const getId = (id) => {
     router.push(`/role/edit/${id}`);
   };
 
@@ -80,9 +80,9 @@ export default function BasicTable({ roles }: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {categoriesData?.map((each: any) => (
+            {categoriesData?.map((each , i) => (
               <TableRow
-                key={each.name}
+                key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">

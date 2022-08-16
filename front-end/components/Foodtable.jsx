@@ -11,21 +11,21 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/router";
 
-type Data = {
-  id: number;
-  namee: String;
-  price: number;
-  ingredients: string;
-  category_id: number;
-  stock: number;
-  portion: number;
-  image: string;
-  tumb_img: string;
-  discount: number;
-  sales: number;
-};
+// type Data = {
+//   id: number;
+//   namee: String;
+//   price: number;
+//   ingredients: string;
+//   category_id: number;
+//   stock: number;
+//   portion: number;
+//   image: string;
+//   tumb_img: string;
+//   discount: number;
+//   sales: number;
+// };
 
-export default function BasicTable({ categories }: any) {
+export default function Foodtable({ categories }) {
   const [categoriesData, setCategoriesData] = useState();
   const router = useRouter();
 
@@ -34,7 +34,7 @@ export default function BasicTable({ categories }: any) {
   }, [categoriesData && categories]);
   // console.log(categories);
 
-  const deleteCat = (id: number) => {
+  const deleteCat = (id) => {
     // console.log(id);
 
     axios
@@ -59,7 +59,7 @@ export default function BasicTable({ categories }: any) {
       });
     router.push(`/food`);
   };
-  const getId = (id: Number) => {
+  const getId = (id) => {
     router.push(`/food/edit/${id}`);
   };
 
@@ -69,10 +69,16 @@ export default function BasicTable({ categories }: any) {
   const insertButton = () => {
     router.push(`/foodinsert`);
   };
+  const logOutButton = () =>{
+    
+  }
   return (
     <>
       <Button onClick={insertButton} variant="contained">
         Insert
+      </Button>
+      <Button onClick={logOutButton} variant="contained">
+        logout
       </Button>
       <TableContainer
         component={Paper}
@@ -103,7 +109,7 @@ export default function BasicTable({ categories }: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {categoriesData?.map((each: any) => (
+            {categoriesData?.map((each) => (
               <TableRow
                 key={each.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

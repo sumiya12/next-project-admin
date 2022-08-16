@@ -11,52 +11,57 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { useRouter } from "next/router";
 
-type Data = {
-  _id: number;
-  name: string;
-  color: string;
-  _v: number;
-};
+// type Data = {
+//   id: Number;
+//   firstname: String;
+//   lastname: String;
+//   email: String;
+//   address: String;
+//   phone_number: String;
+//   rode_id: number;
+// };
 
-export default function BasicTable({ categories }: any) {
+
+export default function Usertable({ users }) {
   const [categoriesData, setCategoriesData] = useState();
   useEffect(() => {
-    setCategoriesData(categories);
+    setCategoriesData(users);
   }, [categoriesData]);
   //   console.log(categories);
   const router = useRouter();
 
-  const deleteCat = (id: number) => {
-    axios
-      .delete("http://localhost:3001/category/delete", {
-        data: { _id: id },
-      })
-      .then((res) => {
-        if (res.statusText == "OK") {
-          axios
-            .get("http://localhost:3001/category")
-            .then((res) => {
-              res.data.data;
-            })
-            .then((d) => setCategoriesData(d))
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const getId = (id: Number) => {
-    router.push(`/category/edit/${id}`);
+    const deleteCat = (id) => {
+      axios
+        .delete("http://localhost:3001/user", {
+          data: { id: id },
+        })
+        .then((res) => {
+          if (res.statusText == "OK") {
+            axios
+              .get("http://localhost:3001/user")
+              .then((res) => {
+                res.data.data;
+              })
+              .then((d) => setCategoriesData(d))
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+        router.push(`/user`);
+    };
+  const getId = (id) => {
+    router.push(`/user/edit/${id}`);
   };
 
   //   const updatebutton = () => {
   //     location.href = "http://localhost:3000/update";
   //   };
   const insertButton = () => {
-    location.href = "http://localhost:3000/insert";
+    router.push(`/insert`);
   };
   return (
     <Container fixed>
@@ -68,30 +73,35 @@ export default function BasicTable({ categories }: any) {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Color</TableCell>
-              <TableCell align="center">_v</TableCell>
+              <TableCell align="center">firstname</TableCell>
+              <TableCell align="center">lastname</TableCell>
+              <TableCell align="center">email</TableCell>
+              <TableCell align="center">address</TableCell>
+              <TableCell align="center">phone_number</TableCell>
+              <TableCell align="center">rode_id</TableCell>
               <TableCell align="center">Delete</TableCell>
               <TableCell align="center">Update</TableCell>
-              <TableCell align="center">Insert</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {categoriesData?.map((each: any) => (
+            {categoriesData?.map((each, i) => (
               <TableRow
-                key={each.name}
+                key={i}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {each._id}
+                  {each.id}
                 </TableCell>
-                <TableCell align="center">{each.name}</TableCell>
-                <TableCell align="center">{each.color}</TableCell>
-                <TableCell align="center">{each._v}</TableCell>
+                <TableCell align="center">{each.firstname}</TableCell>
+                <TableCell align="center">{each.lastname}</TableCell>
+                <TableCell align="center">{each.email}</TableCell>
+                <TableCell align="center">{each.address}</TableCell>
+                <TableCell align="center">{each.phone_number}</TableCell>
+                <TableCell align="center">{each.rode_id}</TableCell>
                 <TableCell align="center">
                   <Button
                     onClick={() => {
-                      deleteCat(each._id);
+                      deleteCat(each.id);
                     }}
                     variant="contained"
                   >
@@ -101,7 +111,7 @@ export default function BasicTable({ categories }: any) {
                 <TableCell align="center">
                   <Button
                     onClick={() => {
-                      getId(each._id);
+                      getId(each.id);
                     }}
                     variant="contained"
                   >
