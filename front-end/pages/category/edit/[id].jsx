@@ -21,6 +21,7 @@ export default function cat({ category }) {
     console.log("this is _v", _v);
     const _id = category[0]._id;
     console.log(_id);
+    const token = localStorage.getItem("user")
     axios
       .put("http://localhost:3001/category", {
         name,

@@ -8,7 +8,8 @@ const LoginTable = () => {
   const router = useRouter();
   const [temp, setTemp] = useState();
   const [user, setUser] = useState(null);
-  const handleSumbit = (e: any) => {
+  const [token, setToken] = useState(null);
+  const handleSumbit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.Password.value;
@@ -22,8 +23,11 @@ const LoginTable = () => {
       .then((res) => {
         if (res.data.success === true) {
           router.push("/food");
-          setUser(res.data.data);
-          console.log(res.data.data);
+          const users = {
+            data : res.data.data,
+            token : res.data.token
+          }
+          setUser(users);
         } else {
           console.log(res.data.message, "----");
           setTemp(res.data.message);
@@ -38,7 +42,8 @@ const LoginTable = () => {
 
 useEffect(()=>{
   localStorage.setItem("user", JSON.stringify(user));
-},[user])
+  // localStorage.setItem("token", JSON.stringify(token));
+},[user,token])
  
 
   const handleClick = () => {

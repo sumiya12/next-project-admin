@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import CategoryTable from "../components/CategoryTable";
 import { Container } from "@mui/material";
@@ -12,6 +12,7 @@ interface Props {
     _v: number;
   };
 }
+
 const category: NextPage<Props> = ({ categories }) => {
   return (
     <Container maxWidth="lg">
@@ -22,6 +23,12 @@ const category: NextPage<Props> = ({ categories }) => {
   );
 };
 export default category;
+
+// useEffect(() => {
+//   let token = localStorage.getItem("token");
+//   console.log(token);
+// }, []);
+
 category.getInitialProps = async (ctx: any) => {
   const res = await axios.get("http://localhost:3001/category");
   const json = await res.data.data;

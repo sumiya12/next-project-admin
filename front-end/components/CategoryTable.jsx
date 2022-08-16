@@ -28,7 +28,7 @@ export default function CategoryTable({ categories }) {
 
   const deleteCat = (id) => {
     axios
-      .delete("http://localhost:3001/category/delete", {
+      .delete("http://localhost:3001/category", {
         data: { _id: id },
       })
       .then((res) => {
@@ -56,7 +56,8 @@ export default function CategoryTable({ categories }) {
   //     location.href = "http://localhost:3000/update";
   //   };
   const insertButton = () => {
-    location.href = "http://localhost:3000/insert";
+    router.push(`/cat`);
+    
   };
   return (
     <Container fixed>
